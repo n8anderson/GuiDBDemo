@@ -1,0 +1,2 @@
+PyQT5 and subsidiaries
+sqlite3
