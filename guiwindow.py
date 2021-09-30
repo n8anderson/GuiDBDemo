@@ -1,6 +1,6 @@
 import sqlite3
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidget, QPushButton, QLineEdit, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QLineEdit, QLabel
 import traceback
 
 
