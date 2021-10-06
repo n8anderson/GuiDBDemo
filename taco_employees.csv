@@ -1,0 +1,12 @@
+﻿Employee ID,First Name,Last Name,Title,Active,Can Reorder?
+100,Frank,Murphey,Manager,1,YES
+101,Sue,Murphey,Cook,0,NO
+102,Dave,Davidson,Assistant Manager,1,YES
+103,Spongebob,Squarepants,Cook,1,NO
+104,Tommy,Taco,Owner,1,YES
+105,Kevin,James,Janitor,1,YES
+106,Rocky,Balboa,Security,0,NO
+107,Clark,Kent,Delivery Driver,1,NO
+108,Nate,Anderson,CTO,0,NO
+109,Roger,Homer,CEO,0,NO
+110,T,Bo,Taco Trainer,1,NO
