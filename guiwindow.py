@@ -65,6 +65,7 @@ class Window(QMainWindow):
         self.show_employees = QPushButton(self)
         self.show_inventory = QPushButton(self)
         self.ordered_items = QPushButton(self)
+        self.update_employee = QPushButton(self)  #AND THIS
 
         # Database tools
         self.cursor = curs
@@ -120,10 +121,15 @@ class Window(QMainWindow):
         self.ordered_items.move(50, 550)
         self.ordered_items.resize(180, 40)
 
+        self.update_employee.setText("Update Employee")  #AND THIS
+        self.update_employee.move(240, 160)  # AND THIS
+        self.update_employee.resize(180,40)  # CODE THIS
+
         self.add_employee.clicked.connect(self.add_employee_clicked)
         self.show_employees.clicked.connect(self.select_from)
         self.show_inventory.clicked.connect(self.select_inventory)
         self.ordered_items.clicked.connect(self.get_ordered_items)
+        self.update_employee.clicked.connect(self.update_entry) # CODE THIS
 
         # Showing Ui
         self.show()
@@ -172,7 +178,7 @@ class Window(QMainWindow):
         try:
             self.cursor.execute("""SELECT * FROM employees""")
             fetched_data = {'Employee ID': [], 'First Name': [], 'Last Name': [],
-                            'Title': [], 'Active': [], 'Can Order?':[]}
+                            'Title': [], 'Active': [], 'Can Order?': []}
             for item in self.cursor.fetchall():
                 fetched_data['Employee ID'].append(item[0])
                 fetched_data['First Name'].append(item[1])
@@ -202,12 +208,14 @@ class Window(QMainWindow):
         except Exception as e:
             print(Exception, e)
 
+    # CODE THIS
     def get_ordered_items(self):
         try:
             self.cursor.execute("""SELECT employeeID, fname, lname, item_description, quantity
-                                   FROM employees INNER JOIN inventory ON inventory.ordered_by = employees.employeeID""")
-            fetched_data = {"Employee ID": [], "First Name": [], "Last Name": [], "Item Description": [],
-                            "Quantity on Hand": []}
+                                    FROM employees INNER JOIN inventory ON inventory.ordered_by = employees.employeeID""")
+
+            fetched_data = {'Employee ID': [], 'First Name': [], 'Last Name': [],
+                            'Item Description': [], 'Quantity on Hand': []}
 
             for item in self.cursor.fetchall():
                 fetched_data['Employee ID'].append(item[0])
@@ -218,6 +226,25 @@ class Window(QMainWindow):
 
             dataframe = pd.DataFrame.from_dict(fetched_data)
             print(dataframe.to_string())
+        except Exception as e:
+            pass
+
+    def update_entry(self):
+        try:
+            current_emp_id = self.employee_id.text()
+            new_title = self.title.text()
+
+            try:
+                self.cursor.execute(f"""SELECT EXISTS(SELECT 1 FROM employees WHERE employeeID = {current_emp_id})""")
+                flag = self.cursor.fetchone()[0]
+                if flag == 1:
+                    query = f"""UPDATE employees SET title = '{new_title}' WHERE employeeID = {current_emp_id}"""
+                    print(query)
+                    self.cursor.execute(query)
+                else:
+                    self.id_error.exec()
+            except Exception as e:
+                pass
 
         except Exception as e:
-            print(Exception, e)
+            pass
